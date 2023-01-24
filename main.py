@@ -17,6 +17,7 @@ dataOntem = dataHoje - datetime.timedelta(days=1)
 pastaDestino = "C:/pastadestino/"
 pastaFtp = "/home/pastaorigemftp/"
 arq = "NOME_ARQUIVO_" + dataOntem.strftime('%d_%m_%Y') ##o nome do arquivo muda dependendo do dia que o ftp for acessado
+extArq = ".csv"
 ####
 
 try:
@@ -24,7 +25,7 @@ try:
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(hostname=HOST,username=USER,password=SENHA,allow_agent=False,look_for_keys=False)
     sftp = client.open_sftp()
-    print('Conexão realizada com sucesso!\nBuscando arquivos:\n - ', arq+".csv")
+    print('Conexão realizada com sucesso!\nBuscando arquivos:\n - ', arq+extArq)
 except:
     print('\nOps ... tivemos um problema!\nErro na conexão: verifique as credenciais de acesso.')
     sys.exit()
@@ -32,10 +33,10 @@ except:
 
 ####| DOWNLOADS DO .CSV |####
 try:
-    sftp.get(pastaFtp+arq+".csv",pastaDestino+arq+".csv")
-    print('Arquivo',arq+".csv",' baixado com sucesso!')
+    sftp.get(pastaFtp+arq+extArq,pastaDestino+arq+extArq)
+    print('Arquivo',arq+extArq,' baixado com sucesso!')
     sftp.close()
 except:
     print('Ops ... tivemos um problema!')
-    print("\nArquivo: ",pastaDestino,arq+".csv não encontrado!")
+    print("\nArquivo: ",pastaDestino,arq+extArq+" não encontrado!")
     sys.exit()
